@@ -1,0 +1,17 @@
+# Local secrets for `bun run dev`. Copy to .dev.vars and fill in.
+# In production set each with: bunx wrangler secret put NAME
+
+# Signs admin sessions. Generate with: openssl rand -hex 32
+SESSION_SECRET=""
+# One-time token required to create the first super admin at /admin.
+ADMIN_SETUP_TOKEN=""
+
+# Paystack (https://dashboard.paystack.com/#/settings/developers)
+PAYSTACK_SECRET_KEY=""
+
+# WhatsApp Business Cloud API (https://developers.facebook.com/apps → WhatsApp)
+WHATSAPP_TOKEN=""
+WHATSAPP_PHONE_NUMBER_ID=""
+WHATSAPP_BUSINESS_ACCOUNT_ID=""
+WHATSAPP_APP_SECRET=""
+WHATSAPP_VERIFY_TOKEN=""
