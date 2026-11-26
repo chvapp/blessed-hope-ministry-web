@@ -1,4 +1,4 @@
--- Blessed Hope Ministry: initial schema (Cloudflare D1 / SQLite)
+-- Blessed Hope Gospel Ministry: initial schema (Cloudflare D1 / SQLite)
 
 CREATE TABLE settings (
   key   TEXT PRIMARY KEY,

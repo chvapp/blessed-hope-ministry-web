@@ -115,7 +115,7 @@ export function AddToCalendar({
     const ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Blessed Hope Ministry//Events//EN',
+      'PRODID:-//Blessed Hope Gospel Ministry//Events//EN',
       'BEGIN:VEVENT',
       `UID:${event.id}@blessedhopeministry`,
       `DTSTAMP:${toIcsDate(new Date())}`,

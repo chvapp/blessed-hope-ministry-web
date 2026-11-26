@@ -22,7 +22,7 @@ export function PlanVisitPage() {
       <PageHero
         eyebrow="Plan a visit"
         title="We’d love to meet you"
-        subtitle="Whether it’s your first time in church or you’re looking for a new church home, here’s what to expect when you visit."
+        subtitle="Whether it’s your first time in church or you’re looking for a new church home, here’s what to expect when you visit us in Calabar."
         image={IMAGES.sanctuary}
       />
 

@@ -47,7 +47,7 @@ const EMPTY_FORM: DevotionalFormState = {
   scriptureRef: '',
   memoryVerse: '',
   propheticFocus: '',
-  author: 'Bishop Emmanuel Daniels',
+  author: 'Pastor Gabriel Joseph',
   status: 'published',
   body: '',
   prayerPointsText: '',

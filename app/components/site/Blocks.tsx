@@ -11,12 +11,15 @@ export function PageHero({
   subtitle,
   image,
   children,
+  titleAs = 'h1',
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: string;
   image: string;
   children?: React.ReactNode;
+  /** Use 'p' when the page's main heading (h1) is further down, e.g. an article title. */
+  titleAs?: 'h1' | 'p';
 }) {
   return (
     <Box
@@ -56,6 +59,7 @@ export function PageHero({
         )}
         <Typography
           variant="h1"
+          component={titleAs}
           sx={{ fontSize: { xs: '3rem', sm: '4rem', md: '5.25rem' }, color: brand.white, maxWidth: '18ch' }}
         >
           {title}

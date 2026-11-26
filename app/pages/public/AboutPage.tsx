@@ -8,7 +8,7 @@ import { BELIEFS, IMAGES, LOCATIONS, MINISTRY } from '../../content/site.ts';
 import { brand, fonts } from '../../theme/muiTheme.ts';
 
 const MILESTONES = [
-  { year: MINISTRY.founded, text: 'Blessed Hope Ministry begins as a small prayer fellowship of 30 believers.' },
+  { year: MINISTRY.founded, text: 'Blessed Hope Gospel Ministry begins as a small prayer fellowship of 30 believers.' },
   { year: '2014', text: 'Our first sanctuary is dedicated and the Bible Academy launches its foundation class.' },
   { year: '2019', text: 'Online Church begins, carrying every service live to members around the world.' },
   { year: '2024', text: 'Branches open in North America, Europe and Oceania.' },
@@ -37,7 +37,7 @@ export function AboutPage() {
           <Box>
             <SectionHeading eyebrow="Who we are" title="One family, many nations" />
             <Typography sx={{ color: brand.muted, lineHeight: 1.9, mt: -2, mb: 2 }}>
-              Blessed Hope Ministry began in {MINISTRY.founded} as a small prayer fellowship with a simple burden: to
+              Blessed Hope Gospel Ministry began in {MINISTRY.founded} as a small prayer fellowship with a simple burden: to
               know God through His Word and make Him known. Today we are a growing family of local churches, home
               cells and online members across Africa, North America, Europe and Oceania.
             </Typography>

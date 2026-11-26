@@ -1,25 +1,28 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Box, CircularProgress, CssBaseline, ThemeProvider } from '@mui/material';
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { PublicLayout } from './components/PublicLayout.tsx';
-import { AboutPage } from './pages/public/AboutPage.tsx';
-import { AcademyPage } from './pages/public/AcademyPage.tsx';
-import { ContactPage } from './pages/public/ContactPage.tsx';
-import { DevotionalsPage } from './pages/public/DevotionalsPage.tsx';
-import { GivePage } from './pages/public/GivePage.tsx';
 import { HomePage } from './pages/public/HomePage.tsx';
-import { MediaPage } from './pages/public/MediaPage.tsx';
-import { ResourcesPage } from './pages/public/ResourcesPage.tsx';
-import { MinistriesPage } from './pages/public/MinistriesPage.tsx';
-import { EventsPage } from './pages/public/EventsPage.tsx';
-import { TestimoniesPage } from './pages/public/TestimoniesPage.tsx';
-import { PrayerPage } from './pages/public/PrayerPage.tsx';
-import { PlanVisitPage } from './pages/public/PlanVisitPage.tsx';
-import { NewBirthPage } from './pages/public/NewBirthPage.tsx';
-import { LocationsPage } from './pages/public/LocationsPage.tsx';
+import { SeoManager } from './lib/seo.ts';
 import { adminTheme, publicTheme } from './theme/muiTheme.ts';
 import type { Sermon, SiteSettings } from './types.ts';
 
+// The home page ships in the main bundle; other pages load on demand for a faster first paint.
+const AboutPage = lazy(() => import('./pages/public/AboutPage.tsx').then((m) => ({ default: m.AboutPage })));
+const AcademyPage = lazy(() => import('./pages/public/AcademyPage.tsx').then((m) => ({ default: m.AcademyPage })));
+const ContactPage = lazy(() => import('./pages/public/ContactPage.tsx').then((m) => ({ default: m.ContactPage })));
+const DevotionalsPage = lazy(() => import('./pages/public/DevotionalsPage.tsx').then((m) => ({ default: m.DevotionalsPage })));
+const GivePage = lazy(() => import('./pages/public/GivePage.tsx').then((m) => ({ default: m.GivePage })));
+const MediaPage = lazy(() => import('./pages/public/MediaPage.tsx').then((m) => ({ default: m.MediaPage })));
+const ResourcesPage = lazy(() => import('./pages/public/ResourcesPage.tsx').then((m) => ({ default: m.ResourcesPage })));
+const MinistriesPage = lazy(() => import('./pages/public/MinistriesPage.tsx').then((m) => ({ default: m.MinistriesPage })));
+const EventsPage = lazy(() => import('./pages/public/EventsPage.tsx').then((m) => ({ default: m.EventsPage })));
+const TestimoniesPage = lazy(() => import('./pages/public/TestimoniesPage.tsx').then((m) => ({ default: m.TestimoniesPage })));
+const PrayerPage = lazy(() => import('./pages/public/PrayerPage.tsx').then((m) => ({ default: m.PrayerPage })));
+const PlanVisitPage = lazy(() => import('./pages/public/PlanVisitPage.tsx').then((m) => ({ default: m.PlanVisitPage })));
+const NewBirthPage = lazy(() => import('./pages/public/NewBirthPage.tsx').then((m) => ({ default: m.NewBirthPage })));
+const LocationsPage = lazy(() => import('./pages/public/LocationsPage.tsx').then((m) => ({ default: m.LocationsPage })));
+const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage.tsx').then((m) => ({ default: m.NotFoundPage })));
 const AdminApp = lazy(() => import('./AdminApp.tsx'));
 
 function AppRoutes() {
@@ -50,6 +53,7 @@ function AppRoutes() {
   return (
     <ThemeProvider theme={isAdminRoute ? adminTheme : publicTheme}>
       <CssBaseline />
+      <SeoManager />
       <Routes>
         <Route element={<PublicLayout settings={settings} />}>
           <Route
@@ -63,6 +67,7 @@ function AppRoutes() {
           />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/devotionals" element={<DevotionalsPage />} />
+          <Route path="/devotionals/:date" element={<DevotionalsPage />} />
           <Route path="/media" element={<MediaPage settings={settings} />} />
           <Route path="/academy" element={<AcademyPage />} />
           <Route path="/resources" element={<ResourcesPage settings={settings} />} />
@@ -75,6 +80,7 @@ function AppRoutes() {
           <Route path="/plan-a-visit" element={<PlanVisitPage />} />
           <Route path="/new-birth" element={<NewBirthPage />} />
           <Route path="/locations" element={<LocationsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route
@@ -92,7 +98,6 @@ function AppRoutes() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </ThemeProvider>
   );

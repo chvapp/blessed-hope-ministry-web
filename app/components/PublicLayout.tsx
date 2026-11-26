@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -36,7 +36,7 @@ const SOCIALS = [
   { label: 'Facebook', href: MINISTRY.social.facebook, Icon: FacebookIcon },
   { label: 'Instagram', href: MINISTRY.social.instagram, Icon: InstagramIcon },
   { label: 'X', href: MINISTRY.social.x, Icon: XIcon },
-];
+].filter((s) => s.href); // only show accounts the church actually has
 
 function isActive(group: NavGroup, pathname: string) {
   if (group.to) return group.to === '/' ? pathname === '/' : pathname.startsWith(group.to);
@@ -136,7 +136,7 @@ export function PublicLayout({ settings }: { settings: SiteSettings | null }) {
             direction="row"
             sx={{ height: { xs: 70, md: 84 }, alignItems: 'center', justifyContent: 'space-between', gap: 2 }}
           >
-            <Box component={RouterLink} to="/" aria-label="Blessed Hope Ministry home" sx={{ textDecoration: 'none' }}>
+            <Box component={RouterLink} to="/" aria-label="Blessed Hope Gospel Ministry home" sx={{ textDecoration: 'none' }}>
               <Logo inverted={!solid} size={46} />
             </Box>
 
@@ -262,7 +262,10 @@ export function PublicLayout({ settings }: { settings: SiteSettings | null }) {
       </Drawer>
 
       <Box component="main" id="main" sx={{ flex: 1 }}>
-        <Outlet />
+        {/* Pages load on demand; keep the header and footer in place meanwhile. */}
+        <Suspense fallback={<Box sx={{ minHeight: '100vh', bgcolor: brand.navyDeep }} />}>
+          <Outlet />
+        </Suspense>
       </Box>
 
       <JoinOnlineBand />
@@ -456,7 +459,6 @@ function SiteFooter({ settings }: { settings: SiteSettings | null }) {
                 ['Daily devotional', '/devotionals'],
                 ['Sermons & live', '/media'],
                 ['Events', '/events'],
-                ['Ministries', '/ministries'],
                 ['Bible Academy', '/academy'],
                 ['Testimonies', '/testimonies'],
                 ['Prayer request', '/prayer'],
@@ -480,7 +482,7 @@ function SiteFooter({ settings }: { settings: SiteSettings | null }) {
               <Stack direction="row" spacing={1.5}>
                 <PlaceOutlinedIcon sx={{ color: brand.gold, fontSize: 20, mt: 0.25 }} />
                 <Typography variant="body2" sx={{ lineHeight: 1.7 }}>
-                  {settings?.sanctuaryAddress || '14 Covenant Sanctuary Way, Lagos, Nigeria'}
+                  {settings?.sanctuaryAddress || '9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State, Nigeria'}
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={1.5}>

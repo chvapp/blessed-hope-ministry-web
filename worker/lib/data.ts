@@ -229,7 +229,7 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  ministryName: 'Blessed Hope Ministry',
+  ministryName: 'Blessed Hope Gospel Ministry',
   monthlyTheme: 'Walking in Covenant Rest & Fruitfulness',
   monthlyScripture: 'Isaiah 32:17–18',
   monthlyDeclaration:
@@ -240,12 +240,12 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   liveStreamFrenchUrl: '',
   liveStreamYorubaUrl: '',
   radioStreamUrl: '',
-  sanctuaryAddress: '14 Covenant Sanctuary Way, Lagos, Nigeria',
+  sanctuaryAddress: '9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State, Nigeria',
   contactEmail: 'care@blessedhopeministry.org',
   contactPhone: '+234 800 555 0194',
   whatsappNumber: '',
   bankName: '',
-  bankAccountName: 'Blessed Hope Ministry',
+  bankAccountName: 'Blessed Hope Gospel Ministry',
   bankAccountNumber: '',
   updatedAt: '',
 };

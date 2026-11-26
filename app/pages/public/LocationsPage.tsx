@@ -25,7 +25,7 @@ export function LocationsPage() {
       <PageHero
         eyebrow="Church locator"
         title="Find a church near you"
-        subtitle="Connect with our branches and home cells across the world, or join our Online Church from anywhere."
+        subtitle="Worship with us at our global headquarters in Calabar, join a home cell near you, or join our Online Church from anywhere in the world."
         image={IMAGES.sanctuary}
       />
 

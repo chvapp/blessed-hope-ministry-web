@@ -13,7 +13,7 @@ import { brand, fonts } from '../../theme/muiTheme.ts';
 import type { SiteSettings } from '../../types.ts';
 
 export function ContactPage({ settings }: { settings: SiteSettings | null }) {
-  const address = settings?.sanctuaryAddress || '14 Covenant Sanctuary Way, Lagos, Nigeria';
+  const address = settings?.sanctuaryAddress || '9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State, Nigeria';
   const phone = settings?.contactPhone || '+234 800 555 0194';
   const email = settings?.contactEmail || 'care@blessedhopeministry.org';
 
@@ -35,7 +35,7 @@ export function ContactPage({ settings }: { settings: SiteSettings | null }) {
     <Box>
       <PageHero
         eyebrow="Contact"
-        title="Blessed Hope Ministry Headquarters"
+        title="Visit us in Calabar"
         subtitle="We’d love to hear from you. Visit us, call us, or send us a message."
         image={IMAGES.sanctuary}
       />

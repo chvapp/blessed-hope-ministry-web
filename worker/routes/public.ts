@@ -19,7 +19,7 @@ import {
   resolveOffsetLabel,
   validateTimeZone,
 } from '../lib/timezone.ts';
-import { EMAIL_RE, newId, normalizePhone, nowIso, str } from '../lib/util.ts';
+import { EMAIL_RE, YMD_RE, newId, normalizePhone, nowIso, str } from '../lib/util.ts';
 
 const SUBMISSION_TYPES = ['prayer', 'testimony', 'first_timer', 'academy', 'contact', 'salvation'] as const;
 
@@ -86,6 +86,34 @@ publicRoutes.get('/devotionals/today', async (c) => {
     nextLockedCount: locked?.n ?? 0,
     globalComparison: getGlobalTimezoneComparison(now),
   });
+});
+
+/**
+ * One devotional by date (permalink pages). Like /today, a date that hasn't begun in
+ * the visitor's timezone stays locked unless the viewer is signed-in staff.
+ */
+publicRoutes.get('/devotionals/date/:date', async (c) => {
+  const date = c.req.param('date') ?? '';
+  if (!YMD_RE.test(date)) return c.json({ error: 'Invalid date.' }, 400);
+  const timeZone = validateTimeZone(c.req.query('tz'));
+  const localDate = resolveLocalDate(timeZone);
+
+  let isStaff = false;
+  try {
+    isStaff = Boolean(await getAdmin(c.env, c.req.header('Authorization')));
+  } catch {
+    isStaff = false;
+  }
+
+  const row = await c.env.DB.prepare(`SELECT * FROM devotionals WHERE publish_date = ? AND status = 'published'`)
+    .bind(date)
+    .first<DevotionalRow>();
+  if (!row) return c.json({ error: 'We couldn’t find a devotional for that date.' }, 404);
+  if (date > localDate && !isStaff) {
+    return c.json({ error: 'This devotional isn’t available in your timezone yet. Check back after midnight.', locked: true }, 403);
+  }
+  c.header('Cache-Control', 'private, max-age=300');
+  return c.json({ devotional: mapDevotional(row), visitorLocalDate: localDate });
 });
 
 publicRoutes.get('/sermons', async (c) => {

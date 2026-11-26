@@ -24,7 +24,7 @@ export function WhatsAppSignup() {
       });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error || 'Something went wrong.');
-      setMsg({ type: 'success', text: 'You’re in! Look out for messages from Blessed Hope Ministry on WhatsApp.' });
+      setMsg({ type: 'success', text: 'You’re in! Look out for messages from Blessed Hope Gospel Ministry on WhatsApp.' });
       setName('');
       setPhone('');
       setConsent(false);
@@ -88,7 +88,7 @@ export function WhatsAppSignup() {
               control={<Checkbox checked={consent} onChange={(e) => setConsent(e.target.checked)} size="small" />}
               label={
                 <Typography variant="body2" color="text.secondary">
-                  I agree to receive WhatsApp messages from Blessed Hope Ministry.
+                  I agree to receive WhatsApp messages from Blessed Hope Gospel Ministry.
                 </Typography>
               }
             />

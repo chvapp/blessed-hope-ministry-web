@@ -1,10 +1,14 @@
 /**
- * Static site content. Placeholder copy for Blessed Hope Ministry: replace names,
+ * Static site content. Placeholder copy for Blessed Hope Gospel Ministry: replace names,
  * addresses, times and links with the church's real details.
  * (Live settings such as contact email/phone and stream URLs come from the admin
  * dashboard via /api/site and override these where shown.)
  */
 import { GENERATED_IMAGES } from '../components/EditorialImage.tsx';
+import { CHURCH, CHURCH_ADDRESS_LINE, SERVICE_TIMES, SOCIAL_LINKS } from '../../shared/church.ts';
+
+export { CHURCH, CHURCH_ADDRESS_LINE, SERVICE_TIMES };
+export type { ServiceTime } from '../../shared/church.ts';
 
 export const IMAGES = {
   sanctuary: GENERATED_IMAGES.heroSanctuary,
@@ -14,38 +18,23 @@ export const IMAGES = {
 } as const;
 
 export const MINISTRY = {
-  name: 'Blessed Hope Ministry',
-  tagline: 'Looking for the blessed hope',
+  name: CHURCH.name,
+  tagline: CHURCH.tagline,
   anchorScripture: {
     text: 'Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.',
     ref: 'Titus 2:13',
   },
   mandate: 'To raise a people anchored in hope, rooted in the Word, and ready for His appearing.',
-  founded: '2010',
+  founded: CHURCH.founded,
   leadPastor: {
-    name: 'Bishop Emmanuel Daniels',
-    role: 'Presiding Bishop',
-    bio: 'Bishop Daniels has served in pastoral ministry for over two decades, with a burden for sound teaching, fervent prayer and raising disciples who carry hope into every sphere of life. Bishop Daniels has led Blessed Hope Ministry since its founding.',
+    name: CHURCH.leader.name,
+    role: CHURCH.leader.title,
+    // Placeholder bio: replace with the pastor's own words before launch.
+    bio: 'Pastor Gabriel Joseph is the Presiding Pastor of Blessed Hope Gospel Ministry, leading the church from its global headquarters in Calabar with a burden for sound teaching, fervent prayer and raising disciples who carry hope into every sphere of life.',
   },
-  social: {
-    youtube: 'https://youtube.com/',
-    facebook: 'https://facebook.com/',
-    instagram: 'https://instagram.com/',
-    x: 'https://x.com/',
-  },
+  social: SOCIAL_LINKS,
 };
 
-export interface ServiceTime {
-  day: string;
-  name: string;
-  times: string[];
-}
-
-export const SERVICE_TIMES: ServiceTime[] = [
-  { day: 'Sunday', name: 'Celebration Service', times: ['7:30 AM', '9:30 AM', '11:30 AM'] },
-  { day: 'Wednesday', name: 'Midweek Word & Communion', times: ['6:00 PM'] },
-  { day: 'Friday', name: 'Hour of Prayer', times: ['6:00 PM'] },
-];
 export const SERVICE_TIMEZONE_NOTE = 'All times are West Africa Time (WAT, GMT+1).';
 
 export interface MinistryArm {
@@ -143,41 +132,15 @@ export interface Location {
 
 export const LOCATIONS: Location[] = [
   {
-    region: 'Africa',
-    city: 'Lagos, Nigeria',
-    name: 'Blessed Hope Ministry: Headquarters',
-    address: '14 Covenant Sanctuary Way, Lagos, Nigeria',
+    region: 'Nigeria',
+    city: 'Calabar, Cross River State',
+    name: `${CHURCH.name}: Global Headquarters`,
+    address: CHURCH_ADDRESS_LINE,
     serviceTimes: 'Sun 7:30 · 9:30 · 11:30 AM · Wed 6 PM (WAT)',
     isHeadquarters: true,
   },
-  {
-    region: 'Africa',
-    city: 'Abuja, Nigeria',
-    name: 'Blessed Hope Abuja',
-    address: 'Plot 22, Hope Avenue, Wuse II, Abuja',
-    serviceTimes: 'Sun 8:00 · 10:30 AM (WAT)',
-  },
-  {
-    region: 'North America',
-    city: 'Toronto, Canada',
-    name: 'Blessed Hope Toronto',
-    address: '250 Grace Street, Toronto, ON',
-    serviceTimes: 'Sun 10:00 AM (ET)',
-  },
-  {
-    region: 'Europe',
-    city: 'London, United Kingdom',
-    name: 'Blessed Hope London',
-    address: '8 Hope Lane, London',
-    serviceTimes: 'Sun 11:00 AM (GMT)',
-  },
-  {
-    region: 'Oceania',
-    city: 'Sydney, Australia',
-    name: 'Blessed Hope Sydney',
-    address: '40 Anchor Road, Sydney NSW',
-    serviceTimes: 'Sun 10:00 AM (AEST)',
-  },
+  // Add branches here as they open, e.g.
+  // { region: 'Nigeria', city: 'Uyo, Akwa Ibom State', name: 'Blessed Hope Uyo', address: '…', serviceTimes: 'Sun 8:00 AM (WAT)' },
 ];
 
 export const BELIEFS = [

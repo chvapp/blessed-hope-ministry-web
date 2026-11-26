@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { brand, fonts } from '../../theme/muiTheme.ts';
 
 /**
- * Placeholder brand mark for Blessed Hope Ministry.
+ * Placeholder brand mark for Blessed Hope Gospel Ministry.
  * An anchor whose shank forms a cross ("hope… an anchor of the soul", Heb 6:19),
  * set against dawn rays ("looking for that blessed hope", Titus 2:13).
  */
@@ -24,7 +24,7 @@ export function LogoMark({
       height={size}
       viewBox="0 0 64 64"
       role="img"
-      aria-label="Blessed Hope Ministry logo"
+      aria-label="Blessed Hope Gospel Ministry logo"
       style={{ flexShrink: 0, display: 'block' }}
     >
       <circle cx="32" cy="32" r="30" fill={badge} stroke={ring} strokeWidth="2.5" />
@@ -83,14 +83,14 @@ export function Logo({
             display: 'block',
             fontSize: size * 0.2,
             fontWeight: 600,
-            letterSpacing: '0.42em',
+            letterSpacing: '0.24em',
             textTransform: 'uppercase',
             color: brand.gold,
             mt: 0.4,
             whiteSpace: 'nowrap',
           }}
         >
-          Ministry
+          Gospel Ministry
         </Typography>
       </Box>
     </Box>

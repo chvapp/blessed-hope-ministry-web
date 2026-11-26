@@ -59,7 +59,7 @@ paymentRoutes.post('/initialize', async (c) => {
       currency,
       reference,
       callback_url: `${origin}/give?reference=${encodeURIComponent(reference)}`,
-      metadata: { donorName, category, ministry: 'Blessed Hope Ministry' },
+      metadata: { donorName, category, ministry: 'Blessed Hope Gospel Ministry' },
     });
     return c.json({ reference, authorizationUrl, accessCode });
   } catch (err) {

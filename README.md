@@ -1,6 +1,6 @@
-# Blessed Hope Ministry
+# Blessed Hope Gospel Ministry
 
-Church website and staff dashboard for Blessed Hope Ministry. It runs entirely on **Cloudflare**: a single Worker serves the React site and the API, with **D1** for data, **R2** for uploaded images, and a cron trigger that sends WhatsApp broadcasts.
+Church website and staff dashboard for Blessed Hope Gospel Ministry, global headquarters: 9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State. It runs entirely on **Cloudflare**: a single Worker serves the React site and the API, with **D1** for data, **R2** for uploaded images, and a cron trigger that sends WhatsApp broadcasts.
 
 ## Features
 
@@ -54,6 +54,19 @@ bun run deploy
 
 Then set `APP_URL` (your public URL) and `PAYSTACK_PUBLIC_KEY` under `vars` in `wrangler.jsonc` and redeploy. Point your domain at the Worker in the Cloudflare dashboard (Workers → Settings → Domains & Routes).
 
+### Search engines (SEO)
+
+The Worker serves every page with its own title, description, canonical URL, social preview (Open Graph/Twitter) and schema.org structured data (Church, Event, BlogPosting for devotionals, BreadcrumbList), plus `robots.txt` and a live `sitemap.xml`. Unknown URLs return a real 404.
+
+After the first deploy:
+
+1. Set `APP_URL` in `wrangler.jsonc` to the final public URL (e.g. `https://blessedhopegospel.org`) and redeploy. Canonical links and the sitemap use it.
+2. Add the site to [Google Search Console](https://search.google.com/search-console) and [Bing Webmaster Tools](https://www.bing.com/webmasters), then submit `https://YOUR-DOMAIN/sitemap.xml`.
+3. Create or claim the church's [Google Business Profile](https://business.google.com) with exactly the same name, address and phone as `shared/church.ts`. This matters most for "church in Calabar" searches.
+4. Check a page with Google's [Rich Results Test](https://search.google.com/test/rich-results).
+
+Devotionals get permanent links (`/devotionals/2026-11-24`). A devotional only appears in the sitemap and in search metadata once its date has begun everywhere in the world, so no one sees tomorrow's reading early.
+
 ### Paystack
 
 1. In the Paystack dashboard, open Settings → API Keys & Webhooks and set the webhook URL to `https://YOUR-DOMAIN/api/payments/webhook`.
@@ -84,7 +97,9 @@ Broadcasts are sent in batches every minute by the cron trigger. `BROADCAST_BATC
 
 ## Customising content
 
-- **Service times, ministries, locations, beliefs, pastor bio, social links:** `app/content/site.ts`
+- **Church name, address, presiding pastor, service times, social links:** `shared/church.ts` (used by the site and by search-engine data)
+- **Page titles and descriptions for search results:** `shared/seo.ts`
+- **Ministries, branches, beliefs, pastor bio:** `app/content/site.ts`
 - **Theme of the month, livestream links, contact details, bank details, WhatsApp chat number:** Admin → Site settings
-- **Logo (placeholder):** `app/components/site/Logo.tsx` and `public/favicon.svg`
+- **Logo (placeholder):** `app/components/site/Logo.tsx` and `public/favicon.svg`. The social preview image (`public/og-image.jpg`) and app icons (`public/icons/`) are rendered from it; regenerate them when the real logo arrives.
 - **Colours and fonts:** `app/theme/muiTheme.ts`

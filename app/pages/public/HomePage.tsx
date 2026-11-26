@@ -61,8 +61,8 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
     {
       image: IMAGES.sanctuary,
       eyebrow: 'Welcome home',
-      title: 'Welcome to Blessed Hope Ministry',
-      text: 'A family anchored in hope, rooted in the Word, and ready for His appearing. Wherever you are, there is a place for you here.',
+      title: 'Welcome to Blessed Hope Gospel Ministry',
+      text: 'A family anchored in hope, rooted in the Word, and ready for His appearing. Join us in Calabar or online: wherever you are, there is a place for you here.',
       primary: { label: settings?.liveActive ? 'Watch live now' : 'Livestream', to: '/media' },
       secondary: { label: 'Give online', to: '/give' },
     },
@@ -234,9 +234,9 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
               {MINISTRY.mandate}
             </Typography>
             <Typography sx={{ color: brand.muted, lineHeight: 1.9, mb: 2 }}>
-              Since {MINISTRY.founded}, Blessed Hope Ministry has gathered people from every walk of life around the
-              Word of God, fervent prayer and genuine fellowship. We are one family across many cities, nations and
-              timezones, and we look together for the blessed hope.
+              Since {MINISTRY.founded}, Blessed Hope Gospel Ministry has gathered people from every walk of life around the
+              Word of God, fervent prayer and genuine fellowship. From our global headquarters in Calabar, Cross River
+              State, we are one family across many cities, nations and timezones, and we look together for the blessed hope.
             </Typography>
             <Typography sx={{ color: brand.muted, lineHeight: 1.9, mb: 4 }}>
               Under the leadership of {MINISTRY.leadPastor.name}, we teach the whole counsel of God, pray for the

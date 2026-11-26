@@ -6,11 +6,20 @@
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
 
-  // The React app is served as static assets; /api/* and /media/* hit the Worker first.
+  // Pages, /api/* and /media/* hit the Worker first (it injects per-page SEO tags into the
+  // HTML); built files, images and icons are served straight from Cloudflare's edge.
   "assets": {
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/media/*"]
+    "run_worker_first": [
+      "/*",
+      "!/assets/*",
+      "!/images/*",
+      "!/icons/*",
+      "!/favicon.svg",
+      "!/og-image.jpg",
+      "!/site.webmanifest"
+    ]
   },
 
   "d1_databases": [

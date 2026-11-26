@@ -9,7 +9,7 @@ export interface TimezoneSnapshot {
 const FEATURED_ZONES: Array<{ timeZone: string; label: string }> = [
   { timeZone: 'America/Toronto', label: 'Toronto, Canada' },
   { timeZone: 'Europe/London', label: 'London, UK' },
-  { timeZone: 'Africa/Lagos', label: 'Lagos, Nigeria' },
+  { timeZone: 'Africa/Lagos', label: 'Calabar, Nigeria' },
   { timeZone: 'Australia/Sydney', label: 'Sydney, Australia' },
 ];
 
