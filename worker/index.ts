@@ -20,7 +20,8 @@ app.route('/api', publicRoutes);
 app.route('/api/payments', paymentRoutes);
 app.route('/api/whatsapp/webhook', whatsappWebhook);
 app.route('/api/admin', adminRoutes);
-app.get('/media/*', (c) => serveMedia(c));
+// Only uploaded files; the /media page itself (sermons & livestream) is the React app.
+app.get('/media/uploads/*', (c) => serveMedia(c));
 
 app.all('/api/*', (c) => c.json({ error: 'Not found.' }, 404));
 app.get('/robots.txt', (c) => robotsTxt(c));
