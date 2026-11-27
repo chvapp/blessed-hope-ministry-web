@@ -47,7 +47,8 @@ bun run db:seed:remote                           # optional sample content
 bunx wrangler secret put SESSION_SECRET          # openssl rand -hex 32
 bunx wrangler secret put ADMIN_SETUP_TOKEN       # any long random string; needed once for /admin setup
 bunx wrangler secret put PAYSTACK_SECRET_KEY
-bunx wrangler secret put S3_BUCKET               # image uploads: also S3_REGION, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY
+bunx wrangler secret put S3_ACCESS_KEY_ID        # image uploads (bucket/region are in wrangler.jsonc vars)
+bunx wrangler secret put S3_SECRET_ACCESS_KEY
 
 bun run deploy
 ```
