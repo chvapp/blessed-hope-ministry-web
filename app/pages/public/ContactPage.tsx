@@ -43,7 +43,7 @@ export function ContactPage({ settings }: { settings: SiteSettings | null }) {
       <Section>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '5fr 7fr' }, gap: { xs: 5, md: 6 }, alignItems: 'start' }}>
           <Box sx={{ bgcolor: brand.navy, color: brand.white, borderRadius: 3, p: { xs: 3.5, md: 4.5 } }}>
-            <Typography sx={{ fontFamily: fonts.display, fontSize: '2.4rem', lineHeight: 1, mb: 3.5 }}>Visit us</Typography>
+            <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.8rem', lineHeight: 1, mb: 3.5 }}>Visit us</Typography>
             <Stack spacing={3}>
               {infoRow(PlaceOutlinedIcon, 'Address', address)}
               {infoRow(
@@ -94,7 +94,7 @@ export function ContactPage({ settings }: { settings: SiteSettings | null }) {
           </Box>
 
           <Box>
-            <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '3.25rem' }, color: brand.navy }}>
+            <Typography variant="h2" sx={{ fontSize: { xs: '1.85rem', md: '2.4rem' }, color: brand.navy }}>
               Ask a question
             </Typography>
             <Typography sx={{ color: brand.muted, mt: 1, mb: 3.5, lineHeight: 1.75 }}>

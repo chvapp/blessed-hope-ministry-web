@@ -47,7 +47,7 @@ export function MinistriesPage() {
               }}
             />
             <Box>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '1.5rem', color: brand.gold, lineHeight: 1 }}>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.1rem', color: brand.gold, lineHeight: 1 }}>
                 {String(i + 1).padStart(2, '0')}
               </Typography>
               <SectionHeading title={arm.name} />

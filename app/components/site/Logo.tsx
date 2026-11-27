@@ -68,9 +68,10 @@ export function Logo({
           sx={{
             display: 'block',
             fontFamily: fonts.display,
-            fontSize: size * 0.56,
-            letterSpacing: '0.06em',
-            lineHeight: 0.95,
+            fontWeight: 800,
+            fontSize: size * 0.42,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.05,
             color: inverted ? brand.white : brand.navy,
             whiteSpace: 'nowrap',
           }}

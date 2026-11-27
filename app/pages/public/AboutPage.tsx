@@ -103,7 +103,7 @@ export function AboutPage() {
             <Typography variant="overline" sx={{ color: brand.gold }}>
               {MINISTRY.leadPastor.role}
             </Typography>
-            <Typography variant="h2" sx={{ fontSize: { xs: '2.75rem', md: '3.75rem' }, mt: 0.5 }}>
+            <Typography variant="h2" sx={{ fontSize: { xs: '2.05rem', md: '2.8rem' }, mt: 0.5 }}>
               {MINISTRY.leadPastor.name}
             </Typography>
             <Typography sx={{ mt: 3, color: 'rgba(255,255,255,0.8)', lineHeight: 1.9, fontSize: '1.05rem' }}>
@@ -131,7 +131,7 @@ export function AboutPage() {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap: 3 }}>
           {MILESTONES.map((m) => (
             <Box key={m.year} sx={{ borderTop: `3px solid ${brand.gold}`, pt: 2.5 }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '3rem', color: brand.navy, lineHeight: 1 }}>{m.year}</Typography>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '2.2rem', color: brand.navy, lineHeight: 1 }}>{m.year}</Typography>
               <Typography sx={{ mt: 1.5, color: brand.muted, lineHeight: 1.75 }}>{m.text}</Typography>
             </Box>
           ))}
@@ -149,7 +149,7 @@ export function AboutPage() {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap: 3 }}>
           {VALUES.map((v, i) => (
             <Box key={v.title} sx={{ p: 3.5, borderRadius: 2, bgcolor: i % 2 ? brand.cream : brand.navy, color: i % 2 ? brand.text : brand.white }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '2.2rem', lineHeight: 1, color: i % 2 ? brand.navy : brand.gold }}>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.65rem', lineHeight: 1, color: i % 2 ? brand.navy : brand.gold }}>
                 {v.title}
               </Typography>
               <Typography sx={{ mt: 1.5, lineHeight: 1.75, color: i % 2 ? brand.muted : 'rgba(255,255,255,0.8)' }}>{v.text}</Typography>
@@ -164,7 +164,7 @@ export function AboutPage() {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, columnGap: 6, rowGap: 0 }}>
           {BELIEFS.map((b, i) => (
             <Stack key={b.title} direction="row" spacing={2.5} sx={{ py: 3, borderBottom: `1px solid ${brand.border}` }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '1.8rem', color: brand.gold, lineHeight: 1, minWidth: 36 }}>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.35rem', color: brand.gold, lineHeight: 1, minWidth: 36 }}>
                 {String(i + 1).padStart(2, '0')}
               </Typography>
               <Box>

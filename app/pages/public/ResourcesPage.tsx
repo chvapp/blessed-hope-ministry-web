@@ -51,7 +51,7 @@ export function ResourcesPage({ settings }: { settings: SiteSettings | null }) {
           <Typography variant="overline" sx={{ color: brand.gold }}>
             This month · {settings?.monthlyScripture || 'Isaiah 32:17–18'}
           </Typography>
-          <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '3.5rem' }, mt: 0.5 }}>
+          <Typography variant="h2" sx={{ fontSize: { xs: '1.85rem', md: '2.6rem' }, mt: 0.5 }}>
             {settings?.monthlyTheme || 'Walking in Covenant Rest & Fruitfulness'}
           </Typography>
           <Typography sx={{ fontFamily: fonts.serif, fontStyle: 'italic', fontSize: '1.2rem', lineHeight: 1.7, mt: 2, maxWidth: 760, color: 'rgba(255,255,255,0.85)' }}>

@@ -227,7 +227,7 @@ async function resolvePage(c: Ctx, path: string, origin: string): Promise<Resolv
       meta: page,
       canonicalPath: path,
       crumbs: path === '/' ? [] : [{ name: page.crumb, path }],
-      preloadImage: path === '/' ? '/images/hero_sanctuary.jpg' : undefined,
+      preloadImage: path === '/' ? '/images/hero/hero-1-1280.jpg' : undefined,
     };
     if (path === '/about') {
       resolved.extraNodes = [
@@ -396,7 +396,9 @@ export async function renderPage(c: Ctx): Promise<Response> {
   const headExtras =
     `<link rel="canonical" href="${escapeHtml(canonical)}">` +
     `<script type="application/ld+json" data-seo-ld>${jsonForScript(buildJsonLd(origin, page, settings))}</script>` +
-    (page.preloadImage ? `<link rel="preload" as="image" href="${page.preloadImage}" fetchpriority="high">` : '');
+    (page.preloadImage
+      ? `<link rel="preload" as="image" href="${page.preloadImage}" imagesrcset="${page.preloadImage} 1280w, ${page.preloadImage.replace('-1280.', '-2400.')} 2400w" imagesizes="100vw" fetchpriority="high">`
+      : '');
 
   const rewritten = new HTMLRewriter()
     .on('title', { element: (el) => void el.setInnerContent(title) })

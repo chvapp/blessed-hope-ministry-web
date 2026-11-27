@@ -27,7 +27,7 @@ export function NewBirthPage() {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
           {STEPS.map((s, i) => (
             <Stack key={s.ref} direction="row" spacing={3} sx={{ p: { xs: 3, md: 4 }, bgcolor: brand.cream, borderRadius: 3 }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '3.5rem', color: brand.gold, lineHeight: 0.85 }}>{i + 1}</Typography>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '2.6rem', color: brand.gold, lineHeight: 0.85 }}>{i + 1}</Typography>
               <Box>
                 <Typography sx={{ fontWeight: 700, color: brand.navy, fontSize: '1.15rem' }}>{s.title}</Typography>
                 <Typography sx={{ fontFamily: fonts.serif, fontStyle: 'italic', color: brand.text, lineHeight: 1.75, mt: 1 }}>
@@ -47,7 +47,7 @@ export function NewBirthPage() {
           <Typography variant="overline" sx={{ color: brand.gold }}>
             Pray this prayer
           </Typography>
-          <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '3.5rem' }, mt: 0.5, mb: 4 }}>
+          <Typography variant="h2" sx={{ fontSize: { xs: '1.85rem', md: '2.6rem' }, mt: 0.5, mb: 4 }}>
             A prayer of salvation
           </Typography>
           <Typography sx={{ fontFamily: fonts.serif, fontSize: { xs: '1.2rem', md: '1.45rem' }, lineHeight: 1.8, color: 'rgba(255,255,255,0.9)' }}>

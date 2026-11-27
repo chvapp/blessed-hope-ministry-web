@@ -18,8 +18,9 @@
 }
 
 .font-display {
-  font-family: "Bebas Neue", "Oswald", "Arial Narrow", sans-serif;
-  letter-spacing: 0.02em;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .font-prose {
@@ -31,8 +32,9 @@
 }
 
 .devotional-dropcap::first-letter {
-  font-family: "Bebas Neue", "Arial Narrow", sans-serif;
-  font-size: 4.2rem;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 3.6rem;
   float: left;
   line-height: 0.8;
   margin-right: 0.6rem;
@@ -40,12 +42,12 @@
   color: #c9a23f;
 }
 
-@keyframes hero-zoom {
+@keyframes hero-progress {
   from {
-    transform: scale(1);
+    transform: scaleX(0);
   }
   to {
-    transform: scale(1.08);
+    transform: scaleX(1);
   }
 }
 

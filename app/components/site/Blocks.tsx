@@ -60,7 +60,7 @@ export function PageHero({
         <Typography
           variant="h1"
           component={titleAs}
-          sx={{ fontSize: { xs: '3rem', sm: '4rem', md: '5.25rem' }, color: brand.white, maxWidth: '18ch' }}
+          sx={{ fontSize: { xs: '2.2rem', sm: '2.95rem', md: '3.9rem' }, color: brand.white, maxWidth: '18ch' }}
         >
           {title}
         </Typography>
@@ -135,7 +135,7 @@ export function SectionHeading({
         <Typography
           variant="h2"
           sx={{
-            fontSize: { xs: '2.5rem', md: '3.5rem' },
+            fontSize: { xs: '1.85rem', md: '2.6rem' },
             color: inverted ? brand.white : brand.navy,
           }}
         >
@@ -267,7 +267,7 @@ export function JoinOnlineBand() {
             <Typography variant="overline" sx={{ color: brand.gold }}>
               Church without walls
             </Typography>
-            <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '3.25rem' }, mt: 0.5 }}>
+            <Typography variant="h2" sx={{ fontSize: { xs: '1.85rem', md: '2.4rem' }, mt: 0.5 }}>
               Join us online this week
             </Typography>
             <Typography sx={{ mt: 1.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.8 }}>
@@ -347,7 +347,7 @@ export function ImageCard({
         }}
       />
       <Box sx={{ position: 'absolute', left: 0, right: 0, bottom: 0, p: 3 }}>
-        <Typography sx={{ fontFamily: fonts.display, fontSize: '2rem', letterSpacing: '0.03em', lineHeight: 1 }}>
+        <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.02em', lineHeight: 1 }}>
           {title}
         </Typography>
         {caption && (

@@ -23,16 +23,16 @@ export const brand = {
 
 export const fonts = {
   body: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
-  display: '"Bebas Neue", "Oswald", "Arial Narrow", sans-serif',
+  /** Headings: Plus Jakarta Sans at extra-bold weight. */
+  display: '"Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif',
   serif: '"Source Serif 4", Georgia, serif',
 } as const;
 
 const displayHeading = {
   fontFamily: fonts.display,
-  fontWeight: 400,
-  letterSpacing: '0.02em',
-  lineHeight: 1,
-  textTransform: 'uppercase' as const,
+  fontWeight: 800,
+  letterSpacing: '-0.025em',
+  lineHeight: 1.1,
 };
 
 export const publicTheme = createTheme({
@@ -63,8 +63,8 @@ export const publicTheme = createTheme({
   },
   typography: {
     fontFamily: fonts.body,
-    h1: { ...displayHeading, fontSize: '4rem' },
-    h2: { ...displayHeading, fontSize: '3rem' },
+    h1: { ...displayHeading, fontSize: '3rem' },
+    h2: { ...displayHeading, fontSize: '2.25rem' },
     h3: { fontFamily: fonts.body, fontWeight: 700, letterSpacing: '-0.01em' },
     h4: { fontFamily: fonts.body, fontWeight: 700, letterSpacing: '-0.01em' },
     h5: { fontFamily: fonts.body, fontWeight: 600 },

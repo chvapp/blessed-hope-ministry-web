@@ -151,7 +151,7 @@ export function DevotionalsPage() {
                 <Typography variant="overline" sx={{ color: brand.goldDark }}>
                   {isToday ? 'Today' : formatYmd(article.publishDate, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                 </Typography>
-                <Typography variant="h2" component={date ? 'h1' : 'h2'} sx={{ fontSize: { xs: '2.75rem', md: '3.75rem' }, color: brand.navy, mt: 0.5 }}>
+                <Typography variant="h2" component={date ? 'h1' : 'h2'} sx={{ fontSize: { xs: '2.05rem', md: '2.8rem' }, color: brand.navy, mt: 0.5 }}>
                   {article.title}
                 </Typography>
                 <Typography sx={{ mt: 1.5, color: brand.muted }}>
@@ -190,7 +190,7 @@ export function DevotionalsPage() {
 
                 {article.prayerPoints.length > 0 && (
                   <Box sx={{ mt: 5, p: { xs: 3, md: 4 }, bgcolor: brand.cream, borderRadius: 3, borderLeft: `4px solid ${brand.gold}` }}>
-                    <Typography sx={{ fontFamily: fonts.display, fontSize: '2rem', color: brand.navy, lineHeight: 1, mb: 2 }}>Prayer points</Typography>
+                    <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.5rem', color: brand.navy, lineHeight: 1, mb: 2 }}>Prayer points</Typography>
                     <Stack component="ol" spacing={1.5} sx={{ m: 0, pl: 2.5 }}>
                       {article.prayerPoints.map((pt, i) => (
                         <Typography component="li" key={i} sx={{ lineHeight: 1.75, color: brand.text, '&::marker': { color: brand.goldDark, fontWeight: 700 } }}>
@@ -220,7 +220,7 @@ export function DevotionalsPage() {
               </>
             ) : pageError ? null : (
               <Box sx={{ py: 6 }}>
-                <Typography variant="h2" sx={{ fontSize: '2.5rem', color: brand.navy }}>
+                <Typography variant="h2" sx={{ fontSize: '1.85rem', color: brand.navy }}>
                   Coming soon
                 </Typography>
                 <Typography sx={{ color: brand.muted, mt: 1 }}>Devotionals will appear here once they are published.</Typography>
@@ -230,7 +230,7 @@ export function DevotionalsPage() {
 
           {/* Archive */}
           <Box component="aside" sx={{ position: { lg: 'sticky' }, top: { lg: 110 } }}>
-            <Typography sx={{ fontFamily: fonts.display, fontSize: '2rem', color: brand.navy, lineHeight: 1 }}>Recent devotionals</Typography>
+            <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.5rem', color: brand.navy, lineHeight: 1 }}>Recent devotionals</Typography>
             <Typography variant="body2" sx={{ color: brand.muted, mt: 1, mb: 2.5 }}>
               Catch up on readings you may have missed.
             </Typography>

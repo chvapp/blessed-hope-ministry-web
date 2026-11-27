@@ -130,7 +130,7 @@ export function GivePage({ settings }: { settings: SiteSettings | null }) {
               <ReceiptView receipt={receipt} verifying={verifying} error={verifyError} onRetry={() => verify(callbackRef)} onGiveAgain={giveAgain} />
             ) : (
               <Box component="form" onSubmit={submit}>
-                <Typography variant="h2" sx={{ fontSize: { xs: '2.25rem', md: '2.75rem' }, color: brand.navy }}>
+                <Typography variant="h2" sx={{ fontSize: { xs: '1.65rem', md: '2.05rem' }, color: brand.navy }}>
                   Give securely
                 </Typography>
                 <Typography sx={{ color: brand.muted, mt: 0.5, mb: 3.5 }}>Card, bank transfer and USSD via Paystack.</Typography>
@@ -268,7 +268,7 @@ export function GivePage({ settings }: { settings: SiteSettings | null }) {
           <Stack spacing={3}>
             {settings?.bankAccountNumber && (
             <Box sx={{ bgcolor: brand.navy, color: brand.white, borderRadius: 3, p: 4 }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '2.2rem', lineHeight: 1 }}>Bank transfer</Typography>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.65rem', lineHeight: 1 }}>Bank transfer</Typography>
               <Typography sx={{ color: 'rgba(255,255,255,0.7)', mt: 1, mb: 2.5 }}>Prefer to give directly? Use our church account.</Typography>
               {[
                 ['Bank', settings.bankName],
@@ -349,7 +349,7 @@ function ReceiptView({
   return (
     <Box sx={{ textAlign: 'center', py: 2 }}>
       <Icon sx={{ fontSize: 64, color: ok ? '#16A34A' : pending ? brand.gold : brand.live }} />
-      <Typography variant="h2" sx={{ fontSize: '2.5rem', color: brand.navy, mt: 1 }}>
+      <Typography variant="h2" sx={{ fontSize: '1.85rem', color: brand.navy, mt: 1 }}>
         {ok ? 'Thank you!' : pending ? 'Payment pending' : 'Payment not completed'}
       </Typography>
       <Typography sx={{ color: brand.muted, mt: 1, mb: 3 }}>

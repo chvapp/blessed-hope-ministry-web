@@ -88,7 +88,7 @@ export function LocationsPage() {
                 <Typography variant="overline" sx={{ color: l.isHeadquarters ? brand.gold : brand.goldDark }}>
                   {l.isHeadquarters ? 'Global headquarters' : l.region}
                 </Typography>
-                <Typography sx={{ fontFamily: fonts.display, fontSize: '2.1rem', lineHeight: 1, color: l.isHeadquarters ? brand.white : brand.navy }}>
+                <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.55rem', lineHeight: 1, color: l.isHeadquarters ? brand.white : brand.navy }}>
                   {l.city}
                 </Typography>
                 <Typography sx={{ fontWeight: 600, mt: 1 }}>{l.name}</Typography>

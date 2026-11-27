@@ -44,7 +44,7 @@ export function WhatsAppSignup() {
               <WhatsAppIcon />
             </Box>
             <Box>
-              <Typography variant="h2" sx={{ fontSize: { xs: '2.1rem', md: '2.6rem' }, color: brand.navy }}>
+              <Typography variant="h2" sx={{ fontSize: { xs: '1.55rem', md: '1.9rem' }, color: brand.navy }}>
                 Get the devotional on WhatsApp
               </Typography>
               <Typography sx={{ color: brand.muted, mt: 1, lineHeight: 1.75 }}>

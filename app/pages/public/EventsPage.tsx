@@ -117,7 +117,7 @@ function EventRow({ event }: { event: MinistryEvent }) {
           borderRadius: 2,
         }}
       >
-        <Typography sx={{ fontFamily: fonts.display, fontSize: { xs: '2.5rem', md: '3.25rem' }, lineHeight: 0.9 }}>{day}</Typography>
+        <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: { xs: '1.85rem', md: '2.4rem' }, lineHeight: 0.9 }}>{day}</Typography>
         <Typography variant="overline" sx={{ color: brand.gold, lineHeight: 1.6 }}>
           {month}
         </Typography>

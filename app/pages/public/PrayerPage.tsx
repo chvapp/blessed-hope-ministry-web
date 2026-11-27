@@ -20,7 +20,7 @@ export function PrayerPage() {
       <Section>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '7fr 5fr' }, gap: { xs: 5, md: 8 }, alignItems: 'start' }}>
           <Box>
-            <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '3.25rem' }, color: brand.navy, mb: 3 }}>
+            <Typography variant="h2" sx={{ fontSize: { xs: '1.85rem', md: '2.4rem' }, color: brand.navy, mb: 3 }}>
               Send a prayer request
             </Typography>
             <CommunityForm
@@ -35,7 +35,7 @@ export function PrayerPage() {
           </Box>
           <Stack spacing={3}>
             <Box sx={{ p: 4, bgcolor: brand.navy, color: brand.white, borderRadius: 3 }}>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '2.2rem', lineHeight: 1 }}>Hour of prayer</Typography>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.65rem', lineHeight: 1 }}>Hour of prayer</Typography>
               <Typography sx={{ mt: 1.5, color: 'rgba(255,255,255,0.8)', lineHeight: 1.8 }}>
                 Join our intercessors in person or online{prayerHour ? ` every ${prayerHour.day} at ${prayerHour.times[0]} (WAT)` : ''}.
               </Typography>

@@ -17,6 +17,17 @@ export const IMAGES = {
   fellowship: GENERATED_IMAGES.academyFellowship,
 } as const;
 
+/**
+ * Home page slider photos (Unsplash License, free for commercial use; credits in
+ * public/images/hero/CREDITS.md). Swap for the church's own photos when available:
+ * keep a 2400px-wide and a 1280px-wide JPEG of each.
+ */
+export const HERO_IMAGES = [
+  { small: '/images/hero/hero-1-1280.jpg', large: '/images/hero/hero-1-2400.jpg', position: '62% center', origin: '60% 40%' },
+  { small: '/images/hero/hero-2-1280.jpg', large: '/images/hero/hero-2-2400.jpg', position: 'center', origin: '45% 30%' },
+  { small: '/images/hero/hero-3-1280.jpg', large: '/images/hero/hero-3-2400.jpg', position: 'center 40%', origin: '50% 60%' },
+] as const;
+
 export const MINISTRY = {
   name: CHURCH.name,
   tagline: CHURCH.tagline,

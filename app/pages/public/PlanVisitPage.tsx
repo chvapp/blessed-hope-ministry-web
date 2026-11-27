@@ -48,7 +48,7 @@ export function PlanVisitPage() {
             <Stack spacing={2} sx={{ mt: -2 }}>
               {SERVICE_TIMES.map((s) => (
                 <Box key={s.day} sx={{ bgcolor: brand.white, p: 2.5, borderRadius: 2, borderLeft: `4px solid ${brand.gold}` }}>
-                  <Typography sx={{ fontFamily: fonts.display, fontSize: '1.7rem', color: brand.navy, lineHeight: 1 }}>{s.day}</Typography>
+                  <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.25rem', color: brand.navy, lineHeight: 1 }}>{s.day}</Typography>
                   <Typography sx={{ fontWeight: 600, mt: 0.5 }}>{s.name}</Typography>
                   <Typography sx={{ color: brand.goldDark, fontWeight: 600 }}>{s.times.join(' · ')}</Typography>
                 </Box>
@@ -56,7 +56,7 @@ export function PlanVisitPage() {
             </Stack>
           </Box>
           <Box sx={{ bgcolor: brand.white, p: { xs: 3, md: 4.5 }, borderRadius: 3 }}>
-            <Typography variant="h2" sx={{ fontSize: { xs: '2.25rem', md: '2.75rem' }, color: brand.navy }}>
+            <Typography variant="h2" sx={{ fontSize: { xs: '1.65rem', md: '2.05rem' }, color: brand.navy }}>
               Let us know you’re coming
             </Typography>
             <Typography sx={{ color: brand.muted, mt: 1, mb: 3, lineHeight: 1.75 }}>

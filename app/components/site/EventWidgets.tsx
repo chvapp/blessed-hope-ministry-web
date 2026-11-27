@@ -56,8 +56,8 @@ export function Countdown({ startAt, inverted = true }: { startAt: string; inver
         >
           <Typography
             sx={{
-              fontFamily: fonts.display,
-              fontSize: { xs: '2.2rem', sm: '2.8rem' },
+              fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em',
+              fontSize: { xs: '1.65rem', sm: '2.05rem' },
               lineHeight: 1,
               color: inverted ? brand.white : brand.navy,
               fontVariantNumeric: 'tabular-nums',

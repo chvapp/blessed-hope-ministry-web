@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, Card, CardContent, Container, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -12,7 +12,7 @@ import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import { Link as RouterLink } from 'react-router-dom';
 import { ImageCard, ScriptureBand, Section, SectionHeading } from '../../components/site/Blocks.tsx';
 import { AddToCalendar, Countdown } from '../../components/site/EventWidgets.tsx';
-import { IMAGES, MINISTRY, MINISTRY_ARMS, SERVICE_TIMES, SERVICE_TIMEZONE_NOTE } from '../../content/site.ts';
+import { HERO_IMAGES, IMAGES, MINISTRY, MINISTRY_ARMS, SERVICE_TIMES, SERVICE_TIMEZONE_NOTE } from '../../content/site.ts';
 import { brand, fonts } from '../../theme/muiTheme.ts';
 import { formatYmd, truncate } from '../../lib/format.ts';
 import type { CommunitySubmission, DevotionalTodayResponse, MinistryEvent, Sermon, SiteSettings } from '../../types.ts';
@@ -22,8 +22,17 @@ interface HomePageProps {
   featuredSermons: Sermon[];
 }
 
+interface HeroImage {
+  small: string;
+  large: string;
+  /** object-position, to keep the subject clear of the text on narrow screens. */
+  position?: string;
+  /** transform-origin for the slow zoom, so each slide drifts a little differently. */
+  origin?: string;
+}
+
 interface Slide {
-  image: string;
+  image: HeroImage;
   eyebrow: string;
   title: string;
   text: string;
@@ -59,7 +68,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
 
   const slides: Slide[] = [
     {
-      image: IMAGES.sanctuary,
+      image: HERO_IMAGES[0],
       eyebrow: 'Welcome home',
       title: 'Welcome to Blessed Hope Gospel Ministry',
       text: 'A family anchored in hope, rooted in the Word, and ready for His appearing. Join us in Calabar or online: wherever you are, there is a place for you here.',
@@ -67,7 +76,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
       secondary: { label: 'Give online', to: '/give' },
     },
     {
-      image: IMAGES.worship,
+      image: HERO_IMAGES[1],
       eyebrow: `Theme of the month · ${settings?.monthlyScripture || 'Isaiah 32:17–18'}`,
       title: settings?.monthlyTheme || 'Walking in Covenant Rest & Fruitfulness',
       text: settings?.monthlyDeclaration || 'And the work of righteousness shall be peace; and the effect of righteousness quietness and assurance for ever.',
@@ -75,7 +84,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
       secondary: { label: 'Plan a visit', to: '/plan-a-visit' },
     },
     {
-      image: IMAGES.fellowship,
+      image: HERO_IMAGES[2],
       eyebrow: featuredEvent ? featuredEvent.scheduleLabel : 'Grow with us',
       title: featuredEvent ? featuredEvent.title : 'Find your place to belong',
       text: featuredEvent
@@ -123,7 +132,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
               <Typography variant="overline" sx={{ color: brand.gold, lineHeight: 1.4, display: 'block' }}>
                 Your date
               </Typography>
-              <Typography sx={{ fontFamily: fonts.display, fontSize: '2rem', lineHeight: 1 }}>
+              <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.5rem', lineHeight: 1 }}>
                 {devotional ? formatYmd(devotional.visitorLocalDate) : '—'}
               </Typography>
             </Box>
@@ -200,7 +209,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
                 <Typography variant="overline" sx={{ color: brand.gold }}>
                   Upcoming · {featuredEvent.category === 'convention' ? 'Convention' : featuredEvent.category === 'academy' ? 'Academy' : 'Special service'}
                 </Typography>
-                <Typography variant="h2" sx={{ fontSize: { xs: '2.75rem', md: '4rem' }, mt: 0.5 }}>
+                <Typography variant="h2" sx={{ fontSize: { xs: '2.05rem', md: '2.95rem' }, mt: 0.5 }}>
                   {featuredEvent.title}
                 </Typography>
                 <Typography sx={{ mt: 1.5, color: brand.gold, fontWeight: 600 }}>{featuredEvent.scheduleLabel}</Typography>
@@ -420,7 +429,7 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
                   borderLeft: `4px solid ${brand.gold}`,
                 }}
               >
-                <Typography sx={{ fontFamily: fonts.display, fontSize: '1.9rem', color: brand.navy, lineHeight: 1 }}>{s.day}</Typography>
+                <Typography sx={{ fontFamily: fonts.display, fontWeight: 800, letterSpacing: '-0.02em', fontSize: '1.4rem', color: brand.navy, lineHeight: 1 }}>{s.day}</Typography>
                 <Typography sx={{ fontWeight: 600 }}>{s.name}</Typography>
                 <Typography sx={{ color: brand.goldDark, fontWeight: 600 }}>{s.times.join(' · ')}</Typography>
               </Box>
@@ -432,30 +441,84 @@ export function HomePage({ settings, featuredSermons }: HomePageProps) {
   );
 }
 
+const SLIDE_MS = 7000;
+const FADE_MS = 1400;
+
 function HeroCarousel({ slides }: { slides: Slide[] }) {
   const [index, setIndex] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
-  const go = useCallback((next: number) => setIndex((next + slides.length) % slides.length), [slides.length]);
+  const [ready, setReady] = useState(false);
+  const touchX = useRef<number | null>(null);
 
+  const go = useCallback(
+    (next: number) =>
+      setIndex((current) => {
+        const target = (next + slides.length) % slides.length;
+        if (target !== current) setPrev(current);
+        return target;
+      }),
+    [slides.length]
+  );
+
+  // Start the first slide's slow zoom one frame after mount so it animates instead of jumping.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  // Auto-advance; restarts after manual navigation and stops while the tab is hidden.
   useEffect(() => {
     if (paused) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % slides.length), 7000);
-    return () => window.clearInterval(id);
-  }, [paused, slides.length]);
+    const id = window.setTimeout(() => {
+      if (document.visibilityState === 'visible') go(index + 1);
+    }, SLIDE_MS);
+    return () => window.clearTimeout(id);
+  }, [index, paused, go]);
+
+  // Warm the cache for the next slide's image so it never fades in half-loaded.
+  useEffect(() => {
+    const next = slides[(index + 1) % slides.length];
+    const img = new Image();
+    img.sizes = '100vw';
+    img.srcset = `${next.image.small} 1280w, ${next.image.large} 2400w`;
+  }, [index, slides]);
 
   return (
     <Box
       component="section"
       aria-roledescription="carousel"
       aria-label="Highlights"
+      tabIndex={-1}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
-      sx={{ position: 'relative', height: { xs: '92svh', md: '100svh' }, minHeight: 600, maxHeight: 980, bgcolor: brand.navyDeep, overflow: 'hidden' }}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') go(index - 1);
+        if (e.key === 'ArrowRight') go(index + 1);
+      }}
+      onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+      onTouchEnd={(e) => {
+        if (touchX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchX.current;
+        if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+        touchX.current = null;
+      }}
+      sx={{
+        position: 'relative',
+        height: { xs: '92svh', md: '100svh' },
+        minHeight: 600,
+        maxHeight: 980,
+        bgcolor: brand.navyDeep,
+        overflow: 'hidden',
+        outline: 'none',
+      }}
     >
       {slides.map((slide, i) => {
         const active = i === index;
+        const behind = i === prev;
+        const zoomed = (active && ready) || behind;
         return (
           <Box
             key={i}
@@ -466,20 +529,34 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
             sx={{
               position: 'absolute',
               inset: 0,
-              opacity: active ? 1 : 0,
-              visibility: active ? 'visible' : 'hidden',
-              transition: 'opacity 900ms ease, visibility 900ms',
+              zIndex: active ? 2 : behind ? 1 : 0,
+              // The new slide fades in on top of the previous one, so the screen never dips to dark.
+              opacity: active || behind ? 1 : 0,
+              transition: active ? `opacity ${FADE_MS}ms cubic-bezier(0.4, 0, 0.2, 1)` : 'none',
+              pointerEvents: active ? 'auto' : 'none',
             }}
           >
             <Box
-              aria-hidden
+              component="img"
+              src={slide.image.small}
+              srcSet={`${slide.image.small} 1280w, ${slide.image.large} 2400w`}
+              sizes="100vw"
+              alt=""
+              decoding="async"
+              fetchPriority={i === 0 ? 'high' : 'low'}
               sx={{
                 position: 'absolute',
                 inset: 0,
-                backgroundImage: `url(${slide.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                animation: active ? 'hero-zoom 9s ease-out forwards' : 'none',
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: slide.image.position || 'center',
+                transformOrigin: slide.image.origin || 'center',
+                // Slow zoom that keeps going while the slide fades out (no snap back).
+                transform: zoomed ? 'scale(1.08) translateZ(0)' : 'scale(1) translateZ(0)',
+                transition: zoomed ? `transform ${SLIDE_MS + FADE_MS * 2}ms cubic-bezier(0.25, 0.1, 0.25, 1)` : 'none',
+                willChange: 'transform',
+                backfaceVisibility: 'hidden',
               }}
             />
             <Box
@@ -488,30 +565,48 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                 position: 'absolute',
                 inset: 0,
                 background:
-                  'linear-gradient(90deg, rgba(6,20,43,0.88) 0%, rgba(6,20,43,0.6) 50%, rgba(6,20,43,0.25) 100%), linear-gradient(0deg, rgba(6,20,43,0.7) 0%, transparent 40%)',
+                  'linear-gradient(90deg, rgba(6,20,43,0.9) 0%, rgba(6,20,43,0.65) 45%, rgba(6,20,43,0.2) 100%), linear-gradient(0deg, rgba(6,20,43,0.75) 0%, transparent 45%)',
               }}
             />
             <Container maxWidth="lg" sx={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ maxWidth: 760, color: brand.white, pt: { xs: 6, md: 10 } }}>
-                <Typography variant="overline" sx={{ color: brand.gold, display: 'block', mb: 2 }}>
+              <Box
+                sx={{
+                  maxWidth: 820,
+                  color: brand.white,
+                  pt: { xs: 6, md: 10 },
+                  // Text eases up line by line after the image arrives.
+                  '& > *': {
+                    opacity: active ? 1 : 0,
+                    transform: active ? 'translateY(0)' : 'translateY(18px)',
+                    transition: active
+                      ? 'opacity 800ms ease var(--delay), transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay)'
+                      : 'opacity 250ms ease, transform 0s linear 250ms',
+                  },
+                }}
+              >
+                <Typography variant="overline" style={{ '--delay': '350ms' } as React.CSSProperties} sx={{ color: brand.gold, display: 'block', mb: 2 }}>
                   {slide.eyebrow}
                 </Typography>
                 <Typography
                   component={i === 0 ? 'h1' : 'h2'}
+                  style={{ '--delay': '500ms' } as React.CSSProperties}
                   sx={{
                     fontFamily: fonts.display,
-                    fontSize: { xs: '3.4rem', sm: '4.75rem', md: '6.25rem' },
-                    lineHeight: 0.95,
-                    letterSpacing: '0.01em',
-                    textTransform: 'uppercase',
+                    fontWeight: 800,
+                    fontSize: { xs: '2.4rem', sm: '3.25rem', md: '4.25rem' },
+                    lineHeight: 1.05,
+                    letterSpacing: '-0.03em',
                   }}
                 >
                   {slide.title}
                 </Typography>
-                <Typography sx={{ mt: 3, fontSize: { xs: '1rem', md: '1.15rem' }, lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', maxWidth: 600 }}>
+                <Typography
+                  style={{ '--delay': '650ms' } as React.CSSProperties}
+                  sx={{ mt: 3, fontSize: { xs: '1rem', md: '1.15rem' }, lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', maxWidth: 600 }}
+                >
                   {slide.text}
                 </Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} sx={{ mt: 4.5 }}>
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} style={{ '--delay': '800ms' } as React.CSSProperties} sx={{ mt: 4.5 }}>
                   <Button component={RouterLink} to={slide.primary.to} variant="contained" color="secondary" size="large" tabIndex={active ? 0 : -1}>
                     {slide.primary.label}
                   </Button>
@@ -533,12 +628,16 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
       })}
 
       {/* Controls */}
-      <Container maxWidth="lg" sx={{ position: 'absolute', left: 0, right: 0, bottom: { xs: 88, md: 120 }, mx: 'auto' }}>
+      <Container maxWidth="lg" sx={{ position: 'absolute', zIndex: 3, left: 0, right: 0, bottom: { xs: 88, md: 120 }, mx: 'auto' }}>
         <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
-          <IconButton aria-label="Previous slide" onClick={() => go(index - 1)} sx={{ color: brand.white, border: '1px solid rgba(255,255,255,0.35)' }}>
+          <IconButton
+            aria-label="Previous slide"
+            onClick={() => go(index - 1)}
+            sx={{ color: brand.white, border: '1px solid rgba(255,255,255,0.35)', backdropFilter: 'blur(4px)' }}
+          >
             <ChevronLeftIcon />
           </IconButton>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
             {slides.map((_, i) => (
               <Box
                 key={i}
@@ -548,19 +647,41 @@ function HeroCarousel({ slides }: { slides: Slide[] }) {
                 aria-current={i === index}
                 onClick={() => go(i)}
                 sx={{
-                  width: i === index ? 36 : 12,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  width: i === index ? 44 : 12,
                   height: 4,
                   p: 0,
                   border: 0,
                   borderRadius: 2,
                   cursor: 'pointer',
-                  bgcolor: i === index ? brand.gold : 'rgba(255,255,255,0.45)',
-                  transition: 'all 300ms ease',
+                  bgcolor: 'rgba(255,255,255,0.4)',
+                  transition: 'width 400ms cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
-              />
+              >
+                {i === index && (
+                  // Fills over the slide's duration. While paused (hover/focus) it shows full,
+                  // and restarts together with the timer when the pause ends.
+                  <Box
+                    key={`${index}-${paused}`}
+                    component="span"
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      bgcolor: brand.gold,
+                      transformOrigin: 'left',
+                      animation: paused ? 'none' : `hero-progress ${SLIDE_MS}ms linear forwards`,
+                    }}
+                  />
+                )}
+              </Box>
             ))}
           </Stack>
-          <IconButton aria-label="Next slide" onClick={() => go(index + 1)} sx={{ color: brand.white, border: '1px solid rgba(255,255,255,0.35)' }}>
+          <IconButton
+            aria-label="Next slide"
+            onClick={() => go(index + 1)}
+            sx={{ color: brand.white, border: '1px solid rgba(255,255,255,0.35)', backdropFilter: 'blur(4px)' }}
+          >
             <ChevronRightIcon />
           </IconButton>
         </Stack>
