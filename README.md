@@ -1,6 +1,6 @@
 # Blessed Hope Gospel Ministry
 
-Church website and staff dashboard for Blessed Hope Gospel Ministry, global headquarters: 9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State. It runs entirely on **Cloudflare**: a single Worker serves the React site and the API, with **D1** for data, **R2** for uploaded images, and a cron trigger that sends WhatsApp broadcasts.
+Church website and staff dashboard for Blessed Hope Gospel Ministry, global headquarters: 9 Effanga Offiong Street, off Edibe Edibe Road, Calabar South, Calabar, Cross River State. It is hosted on **Cloudflare**: a single Worker serves the React site and the API, with **D1** for data, **Amazon S3** for uploaded images, and a cron trigger that sends WhatsApp broadcasts.
 
 ## Features
 
@@ -15,7 +15,7 @@ Church website and staff dashboard for Blessed Hope Gospel Ministry, global head
 | Frontend | React 19, Vite, MUI, React Router (`app/`) |
 | API | Hono on Cloudflare Workers (`worker/`) |
 | Database | Cloudflare D1 (SQLite): schema in `migrations/`, sample data in `seed.sql` |
-| Files | Cloudflare R2 (optional, for admin image uploads) |
+| Files | Amazon S3 (optional, for admin image uploads; Cloudflare R2 also supported) |
 | Payments | Paystack (redirect checkout + signed webhook) |
 | Messaging | WhatsApp Business Cloud API (Meta) |
 
@@ -40,7 +40,6 @@ Open `/admin` and create the first super admin with the `ADMIN_SETUP_TOKEN` from
 ```sh
 bunx wrangler login
 bunx wrangler d1 create blessed-hope-db          # copy the database_id into wrangler.jsonc
-bunx wrangler r2 bucket create blessed-hope-media # optional: admin image uploads
 bun run db:migrate:remote
 bun run db:seed:remote                           # optional sample content
 
@@ -48,6 +47,7 @@ bun run db:seed:remote                           # optional sample content
 bunx wrangler secret put SESSION_SECRET          # openssl rand -hex 32
 bunx wrangler secret put ADMIN_SETUP_TOKEN       # any long random string; needed once for /admin setup
 bunx wrangler secret put PAYSTACK_SECRET_KEY
+bunx wrangler secret put S3_BUCKET               # image uploads: also S3_REGION, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY
 
 bun run deploy
 ```

@@ -1,7 +1,7 @@
 export interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
-  /** Optional R2 bucket for admin image uploads. */
+  /** Optional R2 bucket for admin image uploads (used only when S3 isn't configured). */
   MEDIA?: R2Bucket;
   /** Optional Workers rate limiter for the admin login endpoint. */
   LOGIN_LIMITER?: RateLimit;
@@ -22,6 +22,11 @@ export interface Env {
   WHATSAPP_BUSINESS_ACCOUNT_ID?: string;
   WHATSAPP_APP_SECRET?: string;
   WHATSAPP_VERIFY_TOKEN?: string;
+  /** Amazon S3 for admin image uploads; all four must be set. */
+  S3_BUCKET?: string;
+  S3_REGION?: string;
+  S3_ACCESS_KEY_ID?: string;
+  S3_SECRET_ACCESS_KEY?: string;
 }
 
 export type Role = 'super_admin' | 'admin' | 'editor';

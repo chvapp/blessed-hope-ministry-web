@@ -36,6 +36,7 @@ import {
   str,
 } from '../lib/util.ts';
 import { listTemplates, processBroadcastQueue, whatsappConfigured } from '../lib/whatsapp.ts';
+import { mediaStorage } from '../lib/storage.ts';
 
 export const adminRoutes = new Hono<AppBindings>();
 
@@ -778,12 +779,13 @@ adminRoutes.post('/broadcasts/:id/cancel', requireRole('admin'), async (c) => {
   return c.json({ ok: true });
 });
 
-/* =========================== Uploads (R2) =========================== */
+/* ======================== Uploads (S3 or R2) ======================== */
 
 const IMAGE_TYPES: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
 
 adminRoutes.post('/uploads', requireRole('editor'), async (c) => {
-  if (!c.env.MEDIA) return c.json({ error: 'Image uploads are not set up (R2 bucket missing). Paste an image link instead.' }, 503);
+  const storage = mediaStorage(c.env);
+  if (!storage) return c.json({ error: 'Image uploads are not set up yet. Paste an image link instead.' }, 503);
   const form = await c.req.formData().catch(() => null);
   const file = form?.get('file');
   if (!file || typeof file === 'string') return c.json({ error: 'Please choose an image.' }, 400);
@@ -792,6 +794,11 @@ adminRoutes.post('/uploads', requireRole('editor'), async (c) => {
   if (file.size > 5 * 1024 * 1024) return c.json({ error: 'Images must be 5 MB or smaller.' }, 400);
   const d = new Date();
   const key = `uploads/${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${crypto.randomUUID()}.${ext}`;
-  await c.env.MEDIA.put(key, await file.arrayBuffer(), { httpMetadata: { contentType: file.type } });
+  try {
+    await storage.put(key, await file.arrayBuffer(), file.type);
+  } catch (err) {
+    console.error(err);
+    return c.json({ error: 'The image could not be saved. Please try again.' }, 502);
+  }
   return c.json({ url: `/media/${key}` }, 201);
 });

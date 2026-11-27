@@ -1,6 +1,7 @@
-import { Hono } from 'hono';
+import { Hono, type Context } from 'hono';
 import type { AppBindings } from '../env.ts';
 import { getAdmin } from '../lib/auth.ts';
+import { mediaStorage } from '../lib/storage.ts';
 import {
   type DevotionalRow,
   type EventRow,
@@ -213,17 +214,27 @@ publicRoutes.post('/subscribe', async (c) => {
   return c.json({ ok: true }, 201);
 });
 
-/** Public files uploaded by admins to R2 (sermon thumbnails, event posters). */
-export async function serveMedia(c: { env: AppBindings['Bindings']; req: { path: string } }) {
-  if (!c.env.MEDIA) return new Response('Not found', { status: 404 });
+/**
+ * Public files uploaded by admins (sermon thumbnails, event posters). Uploads never change
+ * (each gets a fresh random key), so they are kept in Cloudflare's edge cache and the
+ * storage bucket is read roughly once per file per data centre.
+ */
+export async function serveMedia(c: Context<AppBindings>) {
+  const storage = mediaStorage(c.env);
+  if (!storage) return new Response('Not found', { status: 404 });
   const key = decodeURIComponent(c.req.path.replace(/^\/media\//, ''));
-  if (!/^uploads\/[\w./-]+$/.test(key)) return new Response('Not found', { status: 404 });
-  const obj = await c.env.MEDIA.get(key);
-  if (!obj) return new Response('Not found', { status: 404 });
-  const headers = new Headers();
-  obj.writeHttpMetadata(headers);
-  headers.set('etag', obj.httpEtag);
-  headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-  headers.set('X-Content-Type-Options', 'nosniff');
-  return new Response(obj.body, { headers });
+  if (!/^uploads\/[\w./-]+$/.test(key) || key.includes('..')) return new Response('Not found', { status: 404 });
+
+  const cache = caches.default;
+  const cacheKey = new Request(new URL(c.req.raw.url).origin + c.req.path);
+  const cached = await cache.match(cacheKey);
+  if (cached) return cached;
+
+  const file = await storage.get(key);
+  if (!file) return new Response('Not found', { status: 404 });
+  file.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+  file.headers.set('X-Content-Type-Options', 'nosniff');
+  const res = new Response(file.body, { headers: file.headers });
+  c.executionCtx.waitUntil(cache.put(cacheKey, res.clone()));
+  return res;
 }
