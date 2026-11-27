@@ -26,8 +26,7 @@
     {
       "binding": "DB",
       "database_name": "blessed-hope-db",
-      // Replace with the id printed by: bunx wrangler d1 create blessed-hope-db
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "53c1f0ec-5cfb-493e-ad37-b62a070d371c",
       "migrations_dir": "migrations"
     }
   ],
